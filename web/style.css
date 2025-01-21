@@ -24,6 +24,15 @@
   			text-shadow: 2px 2px #000000;
 		}
 
+		.smallextra {
+  			font-family: "Galindo", serif;
+  			font-weight: 5;
+  			font-size: 12;
+  			font-style: normal;
+  			color: #FDE74C;
+  			text-shadow: 2px 2px #000000;
+		}
+
 		#slider .noUi-connect {
     		background: #FF6F59;
 		}
@@ -54,13 +63,17 @@
 			box-shadow: 1px 2px;
 		}
 
-		button:hover {background-color: #d1bf3d}
+		button:hover:enabled {background-color: #d1bf3d}
 
-		button:active {
+		button:active:enabled {
   			background-color: #d1bf3d;
   			box-shadow: 0 1px #666;
   			transform: translateY(4px);
 		}
+
+hr {
+	border-top: 1px dashed #FDE74C;
+}
 
 .tooltip {
   position: relative;
@@ -89,4 +102,60 @@
 .tooltip:hover .tooltiptext {
   visibility: visible;
   transition-delay: 0.3s;
+}
+
+.divider {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.divider::before, .divider::after {
+  flex: 1;
+  content: '';
+  padding: 1px;
+  background-color: #FDE74C;
+  margin: 1px;
+}
+
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
+}
+
+.leaderboard {
+
+}
+
+.leaderboard tr:nth-child(2) {
+    
+    box-shadow: -5px 0px 0 #FDE74C;
+    
+}
+
+.leaderboard tr:nth-child(3) {
+    box-shadow: -5px 0px 0 #93B7BE;
+}
+.leaderboard tr:nth-child(4) {
+    box-shadow: -5px 0px 0 #A97C73;
+}
+
+.noui-tooltip {
+	text-shadow: none;
 }

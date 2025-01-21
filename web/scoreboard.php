@@ -9,11 +9,6 @@
 
 	$QuestionID = SQL_getDailyQuestionID();
 
-	if (SQL_hasAnsweredQuestion($QuestionID, $hash)) {
-		header('Location: scoreboard.php');
-		exit();
-	}
-
 	$min = SQL_getDailyQuestionMin();
 	$max = SQL_getDailyQuestionMax();
 	$answer = SQL_getDailyQuestionAnswer();
@@ -46,48 +41,79 @@
 
 		<h1 class="question"><?php echo(SQL_getDailyQuestionText()); ?> </h1>
 
-		<br>
-		<br>
-		<div class="smallextra" id="slider" style="width: 70%;"></div>
-		<br><br><br><br>
+		<h2 class="extra" style="color: #61F2C2;">
+			<?php
+				if (SQL_hasAnsweredQuestion($QuestionID, $hash)) {
+					$score = SQL_getAnswerScore($QuestionID, $hash);
 
-		<form action="/submit.php" onkeydown="return event.key != 'Enter';">
-			<div style="text-align: left; display: inline-block; white-space: nowrap;" class="board">
-				<table>
-  					<tr>
-  						<th></th>
-  						<th></th>
-  					</tr>
-  					<tr>
-  						<td><a class="extra">Min: </a></td>
-  						<td><input type="number" id="input-min" name="input-min"> <a id="unit-min"><?php echo($unit); ?></a></td>
-  					</tr>
-  					<tr>
-  						<td><a class="extra"> Max: </a></td>
-  						<td><input type="number" id="input-max" name="input-max"> <a id="unit-max"><?php echo($unit); ?></a></td>
-  					</tr>
-  					<tr>
-  						<td><a class="extra" style="color: #FF6F59;"> Jutalom: </a></td>
-  						<td><a id="reward-disp" class="extra" style="color: #61F2C2;">200 pont</a></td>
-  					</tr>
-  				</table>		
-			</div>
-			<br>
-			<button type="submit" id="submitbtn">Válasz beküldése</button>
-		</form>
+					echo("<div class='smallextra' id='slider' style='width: 70%;'></div><br><br><br><br>");
+
+					$userMin = SQL_getAnswerMin($QuestionID, $hash);
+					$userMax = SQL_getAnswerMax($QuestionID, $hash);
+
+					if ($score > 0) {
+						echo("<a class='extra'>Helyes válasz!</a><br>");
+						echo($score . " pont");
+					} else {
+						echo("<a style=\"color: #FF6F59;\">Helytelen válasz!</a>");
+					}
+				} else {
+					echo("<button onclick=\"document.location.href='index.php'\">Válaszolok!</button>");
+				}
+			?>
+		</h2>
+
 		<br>
+		
+
 		<?php include('leaderboards.php'); ?>
+
 	</center>
 
 </body>
 </html>
 
+<style type="text/css">
+.noUi-handle {
+  border-radius: 0 !important;
+    height: 18px!important;
+    width: 10px!important;
+    top: -1px!important;
+    right: -9px!important;
+    border-radius: 0!important;
+}
+
+.noUi-handle[data-handle="1"] {
+  border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: #FDE74C; /* For Safari 5.1 to 6.0 */
+    background-image: url(img/star.png)!important;
+    background-size: 100% 100%!important;
+    background-repeat: no-repeat!important;
+    cursor: col-resize;
+    box-shadow: inset 0 0 1px #FFF,
+                inset 0 1px 7px #EBEBEB,
+                0 3px 6px -3px #BBB;
+    width: 18px!important;
+}
+
+.noUi-handle[data-handle="1"] > .noUi-tooltip {
+	bottom: unset!important;
+	background-color: #FDE74C;
+}
+
+</style>
 
 <script type="text/javascript">
 	var slider = document.getElementById('slider');
 
 	var min = <?php echo($min); ?>;
 	var max = <?php echo($max); ?>;
+
+	var userMin = <?php echo($userMin); ?>;
+	var userMax = <?php echo($userMax); ?>;
+
+	var answer = <?php echo($answer); ?>;
 
 	var steps = 11;
 	var step = (Math.log(max) - Math.log(min))/(steps - 1);
@@ -100,7 +126,7 @@
 	console.log(logscale)
 
 	noUiSlider.create(slider, {
-    	start: [min, max],
+    	start: [userMin, answer, userMax],
     	connect: true,
     	range: {
         	'min': min,
@@ -139,53 +165,6 @@
     	},
 	});
 
-</script>
-
-<script type="text/javascript">
-	var inputMin = document.getElementById('input-min');
-	var inputMax = document.getElementById('input-max');
-
-	function copyhash() {
-		navigator.clipboard.writeText( <?php echo("'" . $hash . "'"); ?> );
-	}
-
-	function calcScore(min, max) {
-		var min = parseInt(inputMin.value);
-		var max = parseInt(inputMax.value);
-		var score = Math.floor(100/(max/min));
-
-		document.getElementById("reward-disp").innerHTML = score.toString() + " pont";
-
-		if (score > 0) {
-			document.getElementById("submitbtn").disabled = false;
-		} else {
-			document.getElementById("submitbtn").disabled = true;
-		}
-	}
-</script>
-
-<script type="text/javascript">
-	
-slider.noUiSlider.on('update', function (values, handle) {
-
-    var value = values[handle];
-
-    if (handle) {
-        inputMax.value = value;
-    } else {
-        inputMin.value = value;
-    }
-    calcScore();
-});
-
-inputMax.addEventListener('change', function () {
-    slider.noUiSlider.set([null, this.value]);
-    calcScore();
-});
-
-inputMin.addEventListener('change', function () {
-    slider.noUiSlider.set([this.value, null]);
-    calcScore();
-});
+	slider.noUiSlider.disable();
 
 </script>
