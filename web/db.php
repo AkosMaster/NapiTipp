@@ -129,6 +129,13 @@
 		return $result;
 	}
 
+	function SQL_weeklyLeaderboard() {
+		global $db;
+		// SELECT * FROM tbl WHERE datetime < NOW() - INTERVAL 1 WEEK
+		$result = mysqli_query($db, "SELECT COALESCE(SUM(Score), 0) as Score, UserHash FROM answers INNER JOIN questions ON answers.QuestionID = questions.ID WHERE questions.dayUsed >= NOW() - INTERVAL 1 WEEK GROUP BY UserHash ORDER BY Score DESC;");
+		return $result;
+	}
+
 	function SQL_dailyLeaderboard($QuestionID) {
 		global $db;
 		$result = mysqli_query($db, "SELECT COALESCE(SUM(Score), 0) as Score, UserHash FROM answers WHERE QuestionID='{$QuestionID}' GROUP BY UserHash ORDER BY Score DESC;");
