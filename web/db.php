@@ -20,13 +20,13 @@
 	function SQL_getUserName($hash) {
 		global $db;
 		$result = mysqli_query($db, "SELECT Name FROM Users WHERE Hash='" . $hash . "';");
-		return $result->fetch_row()[0];
+		return htmlspecialchars($result->fetch_row()[0]);
 	}
 
 	function SQL_getUserIcon($hash) {
 		global $db;
 		$result = mysqli_query($db, "SELECT Icon FROM Users WHERE Hash='" . $hash . "';");
-		return $result->fetch_row()[0];
+		return htmlspecialchars($result->fetch_row()[0]);
 	}
 
 	function SQL_hasDailyQuestion() {

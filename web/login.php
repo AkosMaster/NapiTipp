@@ -94,7 +94,7 @@
 		<form action="/login.php" method="POST">
 			<div style="text-align: left; display: inline-block; white-space: nowrap;" class="board">
 			
-				<a class="extra">Név:</a> <input type="text" name="input-name" required><br>
+				<a class="extra">Név:</a> <input type="text" name="input-name" required maxlength="10"><br>
 				<a class="extra" style="color: #FF6F59;"> Ikon: </a>
 				<!-- <select name="input-icon">
   					<option value="1">&#128512;</option>
@@ -125,6 +125,24 @@
 			<br>
 			<button type="submit">Bejelentkezés</button>
 		</form>
+
+		<br>
+		<hr style="width: 10%;">
+		<br>
+
+		<?php
+		if (isset($_COOKIE['UserHash'])) {
+			$codeBox = <<<HTML
+			<details>
+				<summary class="smallextra">Titkos kód</summary>
+				{$_COOKIE['UserHash']}
+			</details>
+			HTML;
+			echo($codeBox);
+		}
+		?>
+
+		<br><br><br><br><br><br><br><br>
 	</center>
 
 </body>

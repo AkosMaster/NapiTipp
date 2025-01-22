@@ -13,6 +13,8 @@
 	$max = SQL_getDailyQuestionMax();
 	$answer = SQL_getDailyQuestionAnswer();
 	$unit = SQL_getDailyQuestionUnit();
+
+	$answerSliderIdx = 0;
 ?>
 
 
@@ -51,6 +53,14 @@
 					$userMin = SQL_getAnswerMin($QuestionID, $hash);
 					$userMax = SQL_getAnswerMax($QuestionID, $hash);
 
+					if ($answer < $userMin) {
+						$answerSliderIdx = 0;
+					} else if ($userMin <= $answer && $answer < $userMax) {
+						$answerSliderIdx = 1;
+					} else {
+						$answerSliderIdx = 2;
+					}
+
 					if ($score > 0) {
 						echo("<a class='extra'>Helyes válasz!</a><br>");
 						echo($score . " pont");
@@ -83,7 +93,7 @@
     border-radius: 0!important;
 }
 
-.noUi-handle[data-handle="1"] {
+.noUi-handle[data-handle="<?php echo($answerSliderIdx); ?>"] {
   border: 1px solid #cccccc;
     border-radius: 5px;
     background-color: #FDE74C; /* For Safari 5.1 to 6.0 */
@@ -97,9 +107,13 @@
     width: 18px!important;
 }
 
-.noUi-handle[data-handle="1"] > .noUi-tooltip {
+.noUi-handle[data-handle="<?php echo($answerSliderIdx); ?>"] > .noUi-tooltip {
 	bottom: unset!important;
 	background-color: #FDE74C;
+}
+
+.noUi-handle:before, .noUi-handle:after {
+	display: none;
 }
 
 </style>
@@ -125,9 +139,22 @@
 	}
 	console.log(logscale)
 
+	sliderorder = []
+	connectorder = []
+	if (answer < userMin) {
+		sliderorder = [answer, userMin, userMax];
+		connectorder = [false, false, true, false];
+	} else if (userMin <= answer && answer < userMax) {
+		sliderorder = [userMin, answer, userMax];
+		connectorder = [false, true, true, false];
+	} else {
+		sliderorder = [userMin, userMax, answer];
+		connectorder = [false, true, false, false];
+	}
+
 	noUiSlider.create(slider, {
-    	start: [userMin, answer, userMax],
-    	connect: true,
+    	start: sliderorder,
+    	connect: connectorder,
     	range: {
         	'min': min,
         	'max': max
@@ -167,4 +194,10 @@
 
 	slider.noUiSlider.disable();
 
+</script>
+
+<script type="text/javascript">
+	function copyhash() {
+		navigator.clipboard.writeText( <?php echo("'" . $hash . "'"); ?> );
+	}
 </script>
