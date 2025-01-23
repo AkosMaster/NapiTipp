@@ -185,10 +185,10 @@
 
     	format: {
     		from: function(value) {
-        	    return parseInt(value);
+        	    return Math.round(parseFloat(value));
         	},
     		to: function(value) {
-            	return parseInt(value);
+            	return Math.round(parseFloat(value));
         	}
     	},
 	});
