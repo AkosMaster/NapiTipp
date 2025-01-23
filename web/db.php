@@ -53,6 +53,18 @@
 		return $result->fetch_row()[0];
 	}
 
+	function SQL_getQuestionText($QuestionID) {
+		global $db;
+		$result = mysqli_query($db, "SELECT Text FROM Questions WHERE ID={$QuestionID};");
+		return $result->fetch_row()[0];
+	}
+
+	function SQL_getQuestionDayUsed($QuestionID) {
+		global $db;
+		$result = mysqli_query($db, "SELECT DayUsed FROM Questions WHERE ID={$QuestionID};");
+		return $result->fetch_row()[0];
+	}
+
 	function SQL_getDailyQuestionText() {
 		global $db;
 		$date = date('Y-m-d', time());
@@ -131,14 +143,27 @@
 
 	function SQL_weeklyLeaderboard() {
 		global $db;
+		$date = date('Y-m-d', time());
 		// SELECT * FROM tbl WHERE datetime < NOW() - INTERVAL 1 WEEK
-		$result = mysqli_query($db, "SELECT COALESCE(SUM(Score), 0) as Score, UserHash FROM answers INNER JOIN questions ON answers.QuestionID = questions.ID WHERE questions.dayUsed >= NOW() - INTERVAL 1 WEEK GROUP BY UserHash ORDER BY Score DESC;");
+		$result = mysqli_query($db, "SELECT COALESCE(SUM(Score), 0) as Score, UserHash FROM answers INNER JOIN questions ON answers.QuestionID = questions.ID WHERE questions.dayUsed >= STR_TO_DATE('{$date}', '%Y-%m-%d') - INTERVAL 1 WEEK GROUP BY UserHash ORDER BY Score DESC;");
 		return $result;
 	}
 
 	function SQL_dailyLeaderboard($QuestionID) {
 		global $db;
 		$result = mysqli_query($db, "SELECT COALESCE(SUM(Score), 0) as Score, UserHash FROM answers WHERE QuestionID='{$QuestionID}' GROUP BY UserHash ORDER BY Score DESC;");
+		return $result;
+	}
+
+	function SQL_getUserHashByName($name) {
+		global $db;
+		$result = mysqli_query($db, "SELECT hash FROM users WHERE Name='{$name}';");
+		return $result->fetch_row()[0];
+	}
+
+	function SQL_previousAnswers($UserHash) {
+		global $db;
+		$result = mysqli_query($db, "SELECT QuestionID, Score, UserHash FROM answers WHERE UserHash='{$UserHash}' ORDER BY QuestionID DESC");
 		return $result;
 	}
 ?>

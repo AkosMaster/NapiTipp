@@ -41,6 +41,7 @@
 	<center>
 
 		<h1 class="extra" style="color:  #5BC0EB;">- NapiTipp -</h1>
+		<?php include ('news.html');?>
 		<hr>
 		<p class="simple" style="text-decoration: underline;">A nap kérdése:</p>
 
@@ -95,7 +96,7 @@
 	var logscale = [];
 	for (var i = 0; i < steps; i++)
 	{
-    	logscale.push(Math.exp(Math.log(min) + i * step));
+    	logscale.push(Math.floor(Math.exp(Math.log(min) + i * step)));
 	}
 	console.log(logscale)
 
@@ -112,6 +113,8 @@
         	stepped: false,
         	density: 10
     	},
+
+    	snap: false,
 
     	range: {
         	'min': [min],
@@ -131,10 +134,12 @@
 
     	format: {
     		from: function(value) {
-        	    return parseInt(value);
+    			//console.log("from ", value);
+        	    return Math.round(parseFloat(value));
         	},
     		to: function(value) {
-            	return parseInt(value);
+    			//console.log("to ", value);
+            	return Math.round(parseFloat(value));
         	}
     	},
 	});
@@ -170,6 +175,8 @@ slider.noUiSlider.on('update', function (values, handle) {
 
     var value = values[handle];
 
+    console.log("slider updated: ", values);
+
     if (handle) {
         inputMax.value = value;
     } else {
@@ -179,12 +186,14 @@ slider.noUiSlider.on('update', function (values, handle) {
 });
 
 inputMax.addEventListener('change', function () {
-    slider.noUiSlider.set([null, this.value]);
+	console.log("inputmax updated: ", this.value)
+    slider.noUiSlider.set([null, this.value], true, true);
     calcScore();
 });
 
 inputMin.addEventListener('change', function () {
-    slider.noUiSlider.set([this.value, null]);
+	console.log("inputmin updated: ", this.value)
+    slider.noUiSlider.set([this.value, null], true, true);
     calcScore();
 });
 

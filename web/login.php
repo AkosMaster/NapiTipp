@@ -134,7 +134,7 @@
 		if (isset($_COOKIE['UserHash'])) {
 			$codeBox = <<<HTML
 			<details>
-				<summary class="smallextra">Titkos kód</summary>
+				<summary class="extra">Titkos kód</summary>
 				{$_COOKIE['UserHash']}
 			</details>
 			HTML;

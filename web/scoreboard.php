@@ -38,6 +38,7 @@
 	<center>
 
 		<h1 class="extra" style="color:  #5BC0EB;">- NapiTipp -</h1>
+		<?php include ('news.html'); ?>
 		<hr>
 		<p class="simple" style="text-decoration: underline;">A nap kérdése:</p>
 
@@ -135,7 +136,7 @@
 	var logscale = [];
 	for (var i = 0; i < steps; i++)
 	{
-    	logscale.push(Math.exp(Math.log(min) + i * step));
+    	logscale.push(Math.floor(Math.exp(Math.log(min) + i * step)));
 	}
 	console.log(logscale)
 
