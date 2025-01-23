@@ -187,13 +187,13 @@ slider.noUiSlider.on('update', function (values, handle) {
 
 inputMax.addEventListener('change', function () {
 	console.log("inputmax updated: ", this.value)
-    slider.noUiSlider.set([null, this.value], true, true);
+    slider.noUiSlider.set([null, this.value]);
     calcScore();
 });
 
 inputMin.addEventListener('change', function () {
 	console.log("inputmin updated: ", this.value)
-    slider.noUiSlider.set([this.value, null], true, true);
+    slider.noUiSlider.set([this.value, null]);
     calcScore();
 });
 
