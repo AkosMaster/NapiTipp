@@ -66,7 +66,7 @@
 							$text = SQL_getQuestionText($qid);
 							$day = SQL_getQuestionDayUsed($qid);
 
-							echo("<tr class='leaderboard' id='LBrow_alltime_{$b_UserHash}'>");
+							echo("<tr class='leaderboard'>");
 								echo("<td><a class='extra' style='color:#FF6F59'>#" . $day . "</a></td>");
 								echo ("<td><a class='extra'>" . $text . "</a><td>");
 								echo ("<td><a class='extra' style='color: #61F2C2;'>" . $score . " pont</a><td>");

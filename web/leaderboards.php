@@ -19,7 +19,7 @@
 
 							$b_username = SQL_getUserName($b_UserHash);
 
-							echo("<tr class='leaderboard' id='LBrow_alltime_{$b_UserHash}' onclick='viewProfile(\"{$b_username}\")'>");
+							echo("<tr class='leaderboard' id='LBrow_alltime_{$b_username}' onclick='viewProfile(\"{$b_username}\")'>");
 								echo("<td><a class='extra' style='color:#FF6F59'>#" . $count . "</a></td>");
 								echo ("<td><a class='extra'>" . SQL_getUserIcon($b_UserHash) . $b_username . "</a><td>");
 								echo ("<td><a class='extra' style='color: #61F2C2;'>" . $score . " pont</a><td>");
@@ -54,7 +54,7 @@
 
 							$b_username = SQL_getUserName($b_UserHash);
 
-							echo("<tr class='leaderboard' id='LBrow_weekly_{$b_UserHash}' onclick='viewProfile(\"{$b_username}\")'>");
+							echo("<tr class='leaderboard' id='LBrow_weekly_{$b_username}' onclick='viewProfile(\"{$b_username}\")'>");
 								echo("<td><a class='extra' style='color:#FF6F59'>#" . $count . "</a></td>");
 								echo ("<td><a class='extra'>" . SQL_getUserIcon($b_UserHash) . $b_username . "</a><td>");
 								echo ("<td><a class='extra' style='color: #61F2C2;'>" . $score . " pont</a><td>");
@@ -89,7 +89,7 @@
 
 							$b_username = SQL_getUserName($b_UserHash);
 
-							echo("<tr class='leaderboard' id='LBrow_daily_{$b_UserHash}' onclick='viewProfile(\"{$b_username}\")'>");
+							echo("<tr class='leaderboard' id='LBrow_daily_{$b_username}' onclick='viewProfile(\"{$b_username}\")'>");
 								echo("<td><a class='extra' style='color:#FF6F59'>#" . $count . "</a></td>");
 								echo ("<td><a class='extra'>" . SQL_getUserIcon($b_UserHash) . $b_username . "</a><td>");
 								echo ("<td><a class='extra' style='color: #61F2C2;'>" . $score . " pont</a><td>");
@@ -107,10 +107,10 @@
 			</table>
 		</div>
 		<script type="text/javascript">
-			var hash = <?php echo("'{$hash}'"); ?>;
-			document.getElementById("LBrow_alltime_" + hash).style = "outline-style: dashed; outline-color: rgba(253, 231, 76, 0.5);";
-			document.getElementById("LBrow_weekly_" + hash).style = "outline-style: dashed; outline-color: rgba(253, 231, 76, 0.5)";
-			document.getElementById("LBrow_daily_" + hash).style = "outline-style: dashed; outline-color: rgba(253, 231, 76, 0.5)";
+			var name = <?php echo("'{$username}'"); ?>;
+			document.getElementById("LBrow_alltime_" + name).style = "outline-style: dashed; outline-color: rgba(253, 231, 76, 0.5);";
+			document.getElementById("LBrow_weekly_" + name).style = "outline-style: dashed; outline-color: rgba(253, 231, 76, 0.5)";
+			document.getElementById("LBrow_daily_" + name).style = "outline-style: dashed; outline-color: rgba(253, 231, 76, 0.5)";
 
 			function viewProfile(uname) {
 				document.location.href = "/viewprofile.php?uname=" + uname;
