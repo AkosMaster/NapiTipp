@@ -44,6 +44,9 @@
 
 		<h1 class="question"><?php echo(SQL_getDailyQuestionText()); ?> </h1>
 
+		<br>
+		<br>
+
 		<h2 class="extra" style="color: #61F2C2;">
 			<?php
 				if (SQL_hasAnsweredQuestion($QuestionID, $hash)) {
